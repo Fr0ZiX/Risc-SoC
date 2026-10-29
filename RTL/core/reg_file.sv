@@ -30,7 +30,8 @@ module reg_file(
     output logic [XLEN-1:0]out[7],
     input logic [XLEN-1:0]inp[7]
     );
-    import common_pkg::regs1 regsuper;
+    import common_pkg::regs1;
+    regs1 regsuper;
     
     initial  begin
       foreach (regsuper[i]) begin
@@ -50,11 +51,8 @@ module reg_file(
     end
     always_comb begin : reder 
       for(int j; j<7; j++) begin
-        if (weaddr==readdr[j]) begin
-          out[j]<= inp[j];
-        end 
-        out[j] <= regsuper[j];
-      end
+          out[j] <= regsuper[j];
+        end
     end
         
     
