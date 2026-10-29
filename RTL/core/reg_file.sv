@@ -19,36 +19,43 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 import common_pkg::XLEN;
+
 module reg_file(
     input logic clk,
     input logic rst,
-    input logic we [7], 
-    input logic [4:0]readdr [7],
-    input logic [4:0]weaddr [7], 
-    output logic [XLEN-1:0]out [7],
-    input logic [XLEN-1:0]inp [7]
+   // input logic we[7],
+   // input logic re[7],
+    input logic [4:0]readdr[7],
+    input logic [4:0]weaddr[7], 
+    output logic [XLEN-1:0]out[7],
+    input logic [XLEN-1:0]inp[7]
     );
+    import common_pkg::regs1 regsuper;
+    
     initial  begin
-      foreach (mem[i]) begin
-        mem[i] = '0;
+      foreach (regsuper[i]) begin
+        regsuper[i] = '0;
       end
-
-
-
-
     end
-    typedef logic [XLEN-1:0]registor1;
-    typedef registor1 regs1 [31:0];
-    regs1 mem;
     always_ff @(posedge clk) begin : reg1fs
       if (rst == 1'b1) begin
-        mem <='{default:'0};
-      end
-      else begin
-        
+        regsuper <='{default:'0};
+      end else begin
+            for (int za =0 ; za< 7 ; za++) begin
+              //if(we[i]) пока так проверю если нет идем по пути ифов
+              regsuper[weaddr[za]] <= inp[za];
+              //end1
+            end
       end
     end
-    
-    
+    always_comb begin : reder 
+      for(int j; j<7; j++) begin
+        if (weaddr==readdr[j]) begin
+          out[j]<= inp[j];
+        end 
+        out[j] <= regsuper[j];
+      end
+    end
+        
     
 endmodule

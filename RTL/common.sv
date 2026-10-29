@@ -37,14 +37,10 @@ package common_pkg;
     parameter int MSR_RI  = (63 - 62);
     parameter int MSR_LE  = (63 - 63);
     typedef logic [9:0] spr_num_t;
-
-    // Function declaration
-    // Note: In SystemVerilog, functions used in synthesis should be 'automatic' 
-    // if they are recursive or use dynamic allocation, but for simple decoding 
-    // static is fine. However, matching the prototype:
+    typedef logic [XLEN-1:0]registor1;
+    typedef registor1 regs1 [0:31];
+    
     function automatic spr_num_t decode_spr_num(input logic [31:0] insn);
-        // Implementation would go here
-        // For now, returning a placeholder or leaving body empty as per original snippet
         decode_spr_num = 10'd0; 
     endfunction
 
